@@ -192,14 +192,41 @@
                             "children":[]
                         }
                     ]
+                },
+                {
+                    "path": "6",     //菜单项所对应的路由路径
+                    "title": "系统设置",     //菜单项名称
+                    "icon":"fa-heartbeat",
+                    "children":[//是否有子菜单，若没有，则为[]
+                        {
+                            "path": "/6-1",
+                            "title": "会员折线图",
+                            "linkUrl":"menu_management.html",
+                            "children":[]
+                        }
+                    ]
                 }
             ]
         },
         created() {
             //查询所有检查项列表
             this.getUserName();
+            //按照用户权限获取菜单
+            //this.getMenuByUserName();
         },
         methods: {
+            //获取菜单
+            getMenuByUserName:function(){
+              axios.post().then(
+                  response=>{
+                      if (response.data.flag){
+                          this.menuList = response.data.data;
+                      } else{
+                          this.$message.error(response.date.message);
+                      }
+                  }
+              );
+            },
             //获取用户名
             getUserName(){
                 axios.get("/user/getUserName.do").then(res=>{
