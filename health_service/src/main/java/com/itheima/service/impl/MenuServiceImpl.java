@@ -44,12 +44,12 @@ public class MenuServiceImpl implements MenuService {
             menu.put("path",(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()==2){
             menu.put("parentMenuId", parentMenuId.get(1));
-            Integer priority = dao.queryPriority(parentMenuId.get(1));
-            menu.put("path", "/"+priority+"-"+(String)menu.get("priority"));
+            String path = dao.queryPath(parentMenuId.get(1));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()>2){
             menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
-            Integer priority = dao.queryPriority(parentMenuId.get(1));
-            menu.put("path", "/"+priority+"-"+(String)menu.get("priority"));
+            String path = dao.queryPath(parentMenuId.get(1));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }
         Menu m = new Menu();
         m.setName((String) menu.get("name"));
@@ -78,12 +78,12 @@ public class MenuServiceImpl implements MenuService {
             menu.put("path",(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()==2){
             menu.put("parentMenuId", parentMenuId.get(1));
-            Integer priority = dao.queryPriority(parentMenuId.get(1));
-            menu.put("path", "/"+priority+"-"+(String)menu.get("priority"));
+            String path = dao.queryPath(parentMenuId.get(1));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()>2){
             menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
-            Integer priority = dao.queryPriority(parentMenuId.get(1));
-            menu.put("path", "/"+priority+"-"+(String)menu.get("priority"));
+            String path = dao.queryPath(parentMenuId.get(1));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }
         dao.editMenu(menu);
         List<Integer> rolesChecked = (List<Integer>) menu.get("rolesChecked");
