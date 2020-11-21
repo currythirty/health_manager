@@ -6,10 +6,14 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Menu;
 import com.itheima.service.MenuService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,8 @@ public class MenuController {
     public Result addMenu(@RequestBody Map menu){
         try {
             service.addMenu(menu);
+            //清空redis缓存
+            cleanRedis();
             return new Result(true,"新增菜单成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,6 +57,8 @@ public class MenuController {
     public Result editMenu(@RequestBody Map menu){
         try {
             service.editMenu(menu);
+            //清空redis缓存
+            cleanRedis();
             return new Result(true,"修改菜单成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +75,8 @@ public class MenuController {
                 return new Result(false,"请将该父菜单下的子菜单移除后，再进行删除操作");
             }
             service.deleteMenu(id);
+            //清空redis缓存
+            cleanRedis();
             return new Result(true,"删除菜单成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,4 +152,14 @@ public class MenuController {
             return new Result(false,"查询失败");
         }
     }
+
+    /*删除redis内的用户对应的菜单数据*/
+    private void cleanRedis(){
+        Jedis redis = new Jedis();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        redis.set(username,null);
+        redis.close();
+    }
+
 }

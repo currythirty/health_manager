@@ -44,4 +44,7 @@ public interface MenuDao {
     Integer getRole(String username);
 
     List<Map> getMenus(Integer id);
+
+    @Select("select priority from t_menu where id = #{integer}")
+    Integer queryPriority(Integer integer);
 }
