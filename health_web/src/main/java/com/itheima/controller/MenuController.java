@@ -158,7 +158,7 @@ public class MenuController {
         Jedis redis = new Jedis();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
-        redis.set(username,null);
+        redis.set(username,"");
         redis.close();
     }
 
