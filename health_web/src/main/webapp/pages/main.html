@@ -83,7 +83,7 @@
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script src="../js/axios-0.18.0.js"></script>
 <script>
-    new Vue({
+    let main_vue = new Vue({
         el: '#app',
         data:{
             username:null,
@@ -92,7 +92,6 @@
         created() {
             //查询所有检查项列表
             this.getUserName();
-            //按照用户权限获取菜单
 
         },
         methods: {
@@ -111,9 +110,8 @@
             //获取用户名
             getUserName(){
                 axios.get("/user/getUserName.do").then(res=>{
-                    //res.data == result
-                    //res.data.data == username
                     this.username = res.data.data;
+                    //按照用户权限获取菜单
                     this.getMenuByUserName();
                 })
             }
