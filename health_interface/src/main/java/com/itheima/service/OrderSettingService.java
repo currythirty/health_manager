@@ -22,4 +22,6 @@ public interface OrderSettingService {
      * 单个预约设置（根据预约日期修改可预约人数）
      */
     void editNumberByDate(OrderSetting orderSetting);
+
+    void CleanByLastDate();
 }
