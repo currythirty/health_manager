@@ -27,4 +27,6 @@ public interface MenuService {
     Menu queryMenuById(Integer id);
 
     List<Map> getMenuByUserName(String username);
+
+    List<Menu> findAll();
 }

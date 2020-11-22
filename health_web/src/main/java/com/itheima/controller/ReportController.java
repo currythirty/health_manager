@@ -11,6 +11,7 @@ import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,10 +46,23 @@ public class ReportController {
     /**
      * 会员数量折线图
      */
-    @RequestMapping(value = "/getMemberReport", method = RequestMethod.GET)
-    public Result getMemberReport() {
+    @RequestMapping(value = "/getMemberReport", method = RequestMethod.POST)
+    public Result getMemberReport(@RequestBody Date[] dates) {
         try {
-            Map<String,Object> map = memberService.getMemberReport();
+            Date date_start = dates[0];
+            Date date_end = dates[1];
+            Map<String,Object> map = memberService.getMemberReport(date_start,date_end);
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+    }
+
+    @RequestMapping(value = "/getYearMemberReport", method = RequestMethod.GET)
+    public Result getYearMemberReport() {
+        try {
+            Map<String,Object> map = memberService.getYearMemberReport();
             return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, map);
         } catch (Exception e) {
             e.printStackTrace();

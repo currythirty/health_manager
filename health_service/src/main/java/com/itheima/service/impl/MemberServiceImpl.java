@@ -107,18 +107,16 @@ public class MemberServiceImpl implements MemberService {
             //遍历集合，获取所有的性别
             for (Map sexName : sexMap) {
                 String name = (String) sexName.get("name");
-                if ("1".equals(name)){
-                    sexName.put("name","男");
+                if ("1".equals(name)) {
+                    sexName.put("name", "男");
                     sexNames.add("男");
-                }else{
-                    sexName.put("name","女");
+                } else {
+                    sexName.put("name", "女");
                     sexNames.add("女");
                 }
             }
             mbrMap.put("sexNames", sexNames);
         }
-
-
 
         //4. 创建日历对象
         Calendar calendar = Calendar.getInstance();
@@ -141,12 +139,13 @@ public class MemberServiceImpl implements MemberService {
         int count3 = 0;
         int count4 = 0;
 
+
         //将年龄段添加到集合中
         mbrMap.put("name", ageGroups);
 
-                                                                    //存放年龄段 和对应的会员数量
-                                                                    /*List<Map> ageMap = new ArrayList<>();*/
-                                                                /*    Map map = new HashMap();*/
+        //存放年龄段 和对应的会员数量
+        /*List<Map> ageMap = new ArrayList<>();*/
+        /*    Map map = new HashMap();*/
 
         //6. 查询所有会员的出生日期
         List<String> brithdayList = memberDao.findMemberBrithday();
@@ -156,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
                 //将所有会员的String类型的出生日期转成Date格式
                 Date brithdayDate = DateUtils.parseString2Date(brithday);
                 //获取年月日
-                int yearBirth = brithdayDate.getYear()+1900;
+                int yearBirth = brithdayDate.getYear() + 1900;
                 int monthBirth = brithdayDate.getMonth();
                 int dayBirth = brithdayDate.getDay();
                 int age = yearNow - yearBirth;
@@ -188,7 +187,7 @@ public class MemberServiceImpl implements MemberService {
 
             //创建List<Map> resultList : 用于将name 和 value 融合关联到一起
             List<Map> resultList = new ArrayList<>();
-            for (int i=0;i<4;i++) {
+            for (int i = 0; i < 4; i++) {
                 Map map1 = new HashMap();
                 map1.put("name", ageGroups.get(i));
                 map1.put("value", ageList.get(i));
@@ -201,19 +200,5 @@ public class MemberServiceImpl implements MemberService {
 
         return mbrMap;
     }
-
-
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -12);
-        //遍历获取每一个月年月 ，并将年月放入List<String>集合中
-        List<String> months = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            months.add(new SimpleDateFormat("yyyy-MM").format(calendar.getTime()));
-            calendar.add(Calendar.MONTH, 1);
-        }
-        System.out.println("************************");
-    }
-
-
 }
+

@@ -13,4 +13,83 @@
     <select id="findRolesByUserId" parameterType="int" resultMap="roleMap">
         select tr.* from t_role tr,t_user_role tur where tr.id = tur.role_id and tur.user_id = #{userId}
     </select>
+
+    <!--检查项分页查询-->
+    <select id="selectByCondition" parameterType="string" resultType="com.itheima.pojo.Role">
+        select * from t_role
+        <if test="value != null and value.length > 0">
+            where name = #{value}
+        </if>
+    </select>
+
+    <!--新增角色-->
+    <insert id="add" parameterType="com.itheima.pojo.Role">
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_role (name,keyword,description) values (#{name},#{keyword},#{description})
+    </insert>
+
+    <insert id="setRoleAndMenu" parameterType="map">
+        insert into t_role_menu(role_id,menu_id) values(#{roleId},#{menuId})
+    </insert>
+
+    <insert id="setRoleAndPermissionIds" parameterType="map">
+        insert into t_role_permission(role_id,permission_id) values(#{roleId},#{permissionId})
+    </insert>
+
+    <!--根据角色id查询角色和权限中间表-->
+    <select id="findCountRoleByPermission" parameterType="int" resultType="int">
+         select count(*) from t_role_permission where role_id =#{id}
+    </select>
+
+    <!--根据角色id查询角色和菜单表数据-->
+    <select id="findCountRoleByMenu" parameterType="int" resultType="int">
+         select count(*) from t_role_menu where role_id =#{id}
+    </select>
+
+    <!--根据角色id删除角色表记录-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_role where id = #{id}
+    </delete>
+
+    <!--根据角色id查询角色信息-->
+    <select id="findById" parameterType="int" resultType="com.itheima.pojo.Role">
+        select * from t_role where id = #{id}
+    </select>
+
+    <!--根据角色信息id 查询菜单数据ids-->
+    <select id="findMenuIdsByRoleId" parameterType="int" resultType="int">
+        select menu_id from t_role_menu where role_id = #{id}
+    </select>
+
+    <!--根据角色信息id 查询权限许可ids-->
+    <select id="findPermissionIdsByRoleId" parameterType="int" resultType="int">
+        select permission_id from t_role_permission where role_id = #{id}
+    </select>
+
+    <!--根据角色信息表id 从角色信息和菜单数据的中间表，删除关系数据-->
+    <delete id="deleteRMMiddleByRoleId" parameterType="int">
+        delete from t_role_menu where role_id = #{id}
+    </delete>
+    <!--根据角色信息表id 从角色信息和权限许可的中间表，删除关系数据-->
+    <delete id="deleteRPMiddleByRoleId" parameterType="int">
+        delete from t_role_permission where role_id = #{id}
+    </delete>
+    <!--根据角色信息id 更新角色信息数据-->
+    <update id="edit" parameterType="com.itheima.pojo.Role">
+        update t_role
+        <set>
+            <if test="name!=null and name.length>0">
+                name=#{name},
+            </if>
+            <if test="keyword!=null and keyword.length>0">
+                keyword=#{keyword},
+            </if>
+            <if test="description!=null and description.length>0">
+                description=#{description},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
 </mapper>
