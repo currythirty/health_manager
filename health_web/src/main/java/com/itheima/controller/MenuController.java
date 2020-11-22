@@ -6,18 +6,18 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Menu;
 import com.itheima.service.MenuService;
+import com.itheima.utils.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/menu")
@@ -96,6 +96,7 @@ public class MenuController {
             result.add(map);
             Map map2 = new HashMap();
             map2.put("label","二级菜单");
+            map2.put("value",-1);
             map2.put("children",list);
             result.add(map2);
             return new Result(true,"查询父菜单成功",result);
@@ -143,8 +144,10 @@ public class MenuController {
 
     /*按照权限获取菜单*/
     @RequestMapping("/getMenuByUserName")
-    public Result getMenuByUserName(String username){
+    public Result getMenuByUserName(){
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = user.getUsername();
             List<Map> menu = service.getMenuByUserName(username);
             return new Result(true,"查询成功",menu);
         } catch (Exception e) {
@@ -162,4 +165,14 @@ public class MenuController {
         redis.close();
     }
 
+    @RequestMapping(value = "/findAll",method = RequestMethod.POST)
+    public Result findAll(){
+        try {
+            List<Menu> menuList = service.findAll();
+            return new Result(true,"查询所有菜单数据成功",menuList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"查询所有菜单数据失败");
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package com.itheima.dao;
 
 import com.itheima.pojo.OrderSetting;
+import org.apache.ibatis.annotations.Delete;
+
 
 import java.util.Date;
 import java.util.List;
@@ -8,6 +10,14 @@ import java.util.Map; /**
  * 预约设置持久接口
  */
 public interface OrderSettingDao {
+
+    /*
+    * 定时清理预约设置历史数据
+    *
+    * */
+    @Delete("delete from t_ordersetting where orderDate < #{orderDate}")
+    void cleanByLastDate(Date orderDate);
+
     /**
      * 根据可预约日期 查询记录是否存在
      * @param orderDate
@@ -47,4 +57,6 @@ public interface OrderSettingDao {
      * @param orderSetting
      */
     void editReservationsByOrderDate(OrderSetting orderSetting);
+
+
 }

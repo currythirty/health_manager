@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.itheima.pojo.Permission;
 import com.itheima.pojo.Role;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,6 +18,8 @@ public interface PermissionDao {
      * @return
      */
     public Set<Permission> findPermissionsByRoleId(Integer roleId);
+
+    List<Permission> findAll();
 
     /**
      * 根据权限id 查询权限角色中间表

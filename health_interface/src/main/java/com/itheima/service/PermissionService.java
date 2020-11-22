@@ -1,7 +1,10 @@
 package com.itheima.service;
 
+
 import com.itheima.entity.PageResult;
 import com.itheima.pojo.Permission;
+
+import java.util.List;
 
 /**
  * 权利管理服务接口
@@ -21,4 +24,7 @@ public interface PermissionService {
 
     //根据id更新权限
     void edit(Permission permission);
+
+    List<Permission> findAll();
+
 }

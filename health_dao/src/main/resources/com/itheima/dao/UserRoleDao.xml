@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.UserRoleDao">
+
+    <!--用户分页查询-->
+    <select id="selectByCondition" parameterType="string" resultType="com.itheima.pojo.User">
+        select * from t_user
+        <if test="value != null and value.length > 0">
+            where name = #{value} or telephone = #{value}
+        </if>
+    </select>
+
+    <!--管理角色-->
+    <select id="findRole" resultType="com.itheima.pojo.Role">
+        select * from t_role
+    </select>
+
+    <!--新增用户-->
+    <insert id="add" parameterType="com.itheima.pojo.User">
+        /*获取检查组id*/
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_user(gender,username,password,birthday,remark,station,telephone)
+        values(#{gender},#{username},#{password},#{birthday},#{remark},#{station},#{telephone})
+    </insert>
+
+    <!--设置用户和角色中间表-->
+    <insert id="setUserAndRole" parameterType="map">
+        insert into t_user_role(user_id,role_id)
+        values(#{userId},#{roleId})
+    </insert>
+
+
+    <!--根据用户id查询用户角色中间表-->
+    <select id="findCountRoleByUserId" parameterType="int" resultType="int">
+        select count(*) from t_user_role where user_id =#{id}
+    </select>
+    <!--根据检查用户id删除用户-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_user where id =#{id}
+    </delete>
+
+
+
+    <!-- 根据用户id查询用户-->
+    <select id="findById" parameterType="int" resultType="com.itheima.pojo.User">
+        select * from t_user where id = #{id}
+    </select>
+    <!--根据用户id 查询角色ids-->
+    <select id="findRoleIdsByUserId" parameterType="int" resultType="int">
+        select role_id from t_user_role where user_id = #{id}
+    </select>
+
+    <!--根据用户id从用户角色中间表-->
+    <delete id="deleteRelByUserId" parameterType="int">
+        delete from t_user_role where user_id = #{id}
+    </delete>
+
+    <!--根据用户id 更新用户数据-->
+    <update id="edit" parameterType="com.itheima.pojo.User">
+        update t_user
+        <set>
+            <if test="gender!=null and gender.length>0">
+                gender=#{gender},
+            </if>
+            <if test="username!=null and username.length>0">
+                username=#{username},
+            </if>
+            <if test="telephone!=null and telephone.length>0">
+                telephone=#{telephone},
+            </if>
+
+            <if test="remark!=null and remark.length>0">
+                remark=#{remark},
+            </if>
+            <if test="station!=null and station.length>0">
+                station=#{station},
+            </if>
+            birthday=#{birthday},
+        </set>
+        where id = #{id}
+    </update>
+
+
+
+    <!--查询是否存在-->
+    <select id="findName" parameterType="string" resultType="com.itheima.pojo.User">
+        select * from t_user where username=#{username}
+    </select>
+
+    <!--修改密码-->
+    <update id="updateSecret" parameterType="map">
+        update t_user set password=#{encode} where id=#{id}
+    </update>
+
+</mapper>

@@ -45,11 +45,11 @@ public class MenuServiceImpl implements MenuService {
         }else if(parentMenuId !=null && parentMenuId.size()==2){
             menu.put("parentMenuId", parentMenuId.get(1));
             String path = dao.queryPath(parentMenuId.get(1));
-            menu.put("path", "/"+path+"-"+(Integer)menu.get("priority"));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()>2){
             menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
             String path = dao.queryPath(parentMenuId.get(1));
-            menu.put("path", "/"+path+"-"+(Integer)menu.get("priority"));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }
         Menu m = new Menu();
         m.setName((String) menu.get("name"));
@@ -76,25 +76,25 @@ public class MenuServiceImpl implements MenuService {
             List<Integer> parentMenuId = (List<Integer>) menu.get("parentMenuId");
             if (parentMenuId !=null && parentMenuId.size()==1){
                 menu.put("parentMenuId",null);
-                menu.put("path",(String)menu.get("priority"));
+                menu.put("path",menu.get("priority"));
             }else if(parentMenuId !=null && parentMenuId.size()==2){
                 menu.put("parentMenuId", parentMenuId.get(1));
                 String path = dao.queryPath(parentMenuId.get(1));
-                menu.put("path", "/"+path+"-"+(Integer)menu.get("priority"));
+                menu.put("path", "/"+path+"-"+menu.get("priority"));
             }else if(parentMenuId !=null && parentMenuId.size()>2){
                 menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
                 String path = dao.queryPath(parentMenuId.get(1));
-                menu.put("path", "/"+path+"-"+(Integer)menu.get("priority"));
+                menu.put("path", "/"+path+"-"+menu.get("priority"));
             }
         }else{
             Integer parentMenuId = (Integer) menu.get("parentMenuId");
             if (parentMenuId ==null){
                 menu.put("parentMenuId",null);
-                menu.put("path",(Integer)menu.get("priority"));
+                menu.put("path",menu.get("priority"));
             }else if(parentMenuId !=null){
                 menu.put("parentMenuId", parentMenuId);
                 String path = dao.queryPath(parentMenuId);
-                menu.put("path", "/"+path+"-"+(Integer)menu.get("priority"));
+                menu.put("path", "/"+path+"-"+menu.get("priority"));
             }
         }
         dao.editMenu(menu);
@@ -169,5 +169,10 @@ public class MenuServiceImpl implements MenuService {
             jedis.close();
             return menu;
         }
+    }
+
+    @Override
+    public List<Menu> findAll() {
+        return dao.findAll();
     }
 }
