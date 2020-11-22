@@ -96,6 +96,7 @@ public class MenuController {
             result.add(map);
             Map map2 = new HashMap();
             map2.put("label","二级菜单");
+            map2.put("value",-1);
             map2.put("children",list);
             result.add(map2);
             return new Result(true,"查询父菜单成功",result);

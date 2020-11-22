@@ -259,18 +259,8 @@
         },
         methods: {
             //刷新菜单数据
-
            reflush() {
-            this.parent.location.reload();
-                 /*axios.post("/menu/getMenuByUserName.do?").then(
-                    response=>{
-                        if (response.data.flag){
-                            window.parent.main_vue.menuList = response.data.data;
-                        } else{
-                            this.$message.error(response.date.message);
-                        }
-                    }
-                );*/
+               window.parent.reflush();
 
             },
             //编辑
@@ -279,7 +269,7 @@
                 //
                 axios.post("/menu/edit.do", this.formData).then(res => {
                     this.resetForm();
-                    this.reflush();
+
                     //弹出窗口
                     this.dialogFormVisible4Edit = false;
                     this.$message({
@@ -287,7 +277,7 @@
                         type: res.data.flag ? 'success' : 'error'
                     });
                     this.findPage();//分页查询
-                })
+                });
             },
             //添加
             handleAdd() {
@@ -295,7 +285,7 @@
                 //提交表单数据
                 axios.post("/menu/add.do?", this.formData).then(res => {
                     this.resetForm();
-                    this.reflush();
+
                     //弹出窗口
                     this.dialogFormVisible = false;
                     this.$message({
@@ -303,7 +293,7 @@
                         type: res.data.flag ? 'success' : 'error'
                     });
                     this.findPage();//分页查询
-                })
+                });
             },
             //分页查询
             findPage() {
@@ -317,6 +307,7 @@
                     this.pagination.total = res.data.total;
                     this.tableData = res.data.rows;
                 });
+                this.reflush();
             },
             // 重置表单
             resetForm() {
@@ -418,13 +409,14 @@
                 }).then(() => {
                     //发送删除请求
                     axios.get("/menu/deleteById.do?id=" + id).then(res => {
-                        this.reflush();
+
                         this.$message({
                             message: res.data.message,
                             type: res.data.flag ? 'success' : 'error'
                         });
                         this.findPage();//分页查询
-                    })
+                    });
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',

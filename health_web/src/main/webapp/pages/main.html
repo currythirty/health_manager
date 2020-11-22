@@ -83,7 +83,11 @@
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script src="../js/axios-0.18.0.js"></script>
 <script>
-    let main_vue = new Vue({
+    function reflush(){
+        main_vue.getMenuByUserName();
+    };
+
+    var main_vue = new Vue({
         el: '#app',
         data:{
             username:null,
@@ -97,7 +101,8 @@
             //test
             //获取菜单
             getMenuByUserName:function(){
-              axios.post("/menu/getMenuByUserName.do?").then(
+                let myDate = new Date();
+              axios.post("/menu/getMenuByUserName.do?"+myDate.getMinutes()+myDate.getSeconds()).then(
                   response=>{
                       if (response.data.flag){
                           this.menuList = response.data.data;
