@@ -48,6 +48,7 @@ public interface MenuDao {
 
     List<Menu> findAll();
 
+    //
     @Select("select path from t_menu where id = #{integer}")
     String queryPath(Integer integer);
 
