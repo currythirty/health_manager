@@ -16,10 +16,10 @@
     <context:component-scan base-package="com.itheima"></context:component-scan>
 
     <!--自定义job-->
-    <bean id="clearImgJob" class="com.itheima.jobs.ClearImgJob"/>
-    <bean id="ClearDataJob" class="com.itheima.jobs.ClearDataJob"/>
+    <bean id="clearImgJob" class="com.itheima.jobs.ClearImgJob"/> <!--当时清理图片-->
+    <bean id="ClearDataJob" class="com.itheima.jobs.ClearDataJob"/><!--定时清理预约数据-->
 
-    <!--配置任务描述 调度程序调用自定义任务类(java反射)-->
+    <!--配置任务描述 调度程序调用自定义任务类(通过反射获取对象)-->
     <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!--配置类-->
         <property name="targetObject" ref="clearImgJob"/>

@@ -24,5 +24,9 @@ public interface OrderSettingService {
      */
     void editNumberByDate(OrderSetting orderSetting);
 
+    /*
+    * 定时定时清理预约设置历史数据
+    *
+    * */
     void CleanByLastDate();
 }

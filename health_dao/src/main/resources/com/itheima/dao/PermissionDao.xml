@@ -6,4 +6,9 @@
     <select id="findPermissionsByRoleId" parameterType="int" resultType="com.itheima.pojo.Permission">
         select tp.* from t_permission tp,t_role_permission trp where tp.id = trp.permission_id and trp.role_id = #{roleId}
     </select>
+
+    <select id="findAll" resultType="com.itheima.pojo.Permission">
+        select * from t_permission
+    </select>
+
 </mapper>
