@@ -70,6 +70,25 @@ public class ReportController {
         }
     }
 
+
+    /*
+    * 会员数量占比饼图(性别、年龄)
+    *
+    * */
+    @RequestMapping("/getMemberNumberReport")
+    public Result getMemberNumberReport(){
+
+        try {
+            Map<String,Object> map = memberService.getMemberNumberReport();
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+    }
+
+
+
     /**
      * 运营数据统计报表
      */

@@ -1,5 +1,7 @@
 package com.itheima.utils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -40,4 +42,5 @@ public class ValidateCodeUtils {
         String capstr = hash1.substring(0, length);
         return capstr;
     }
+
 }
