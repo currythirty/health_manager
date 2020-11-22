@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * 会员服务实现
  */
-//
+
 @Service(interfaceClass = MemberService.class)
 @Transactional
 public class MemberServiceImpl implements MemberService {
@@ -54,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 会员数量折线图
      */
+    //
     @Override
     public Map<String, Object> getMemberReport(Date start, Date end) {
         //获取年份的差
