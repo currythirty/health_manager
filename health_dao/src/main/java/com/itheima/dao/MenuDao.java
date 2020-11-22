@@ -44,4 +44,6 @@ public interface MenuDao {
     Integer getRole(String username);
 
     List<Map> getMenus(Integer id);
+
+    List<Menu> findAll();
 }

@@ -1,6 +1,7 @@
 package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.itheima.constant.MessageConstant;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
@@ -140,6 +141,17 @@ public class MenuController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false,"查询失败");
+        }
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        try {
+            List<Menu> menuList = service.findAll();
+            return new Result(true, "查询所有菜单成功",menuList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "查询所有菜单失败");
         }
     }
 }

@@ -4,6 +4,8 @@ package com.itheima.constant;
  * 消息常量
  */
 public class MessageConstant {
+    public static final String ADD_ROLE_FAIL = "新增角色管理失败";
+    public static final String ADD_ROLE_SUCCESS = "新增角色管理成功";
     public static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
     public static final String DELETE_CHECKITEM_FAIL2 = "检查项已经关联检查组无法删除";
     public static final String DELETE_SETMEAL_FAIL = "套餐已经关联检查组无法删除";
