@@ -118,6 +118,8 @@ public class MemberServiceImpl implements MemberService {
             mbrMap.put("sexNames", sexNames);
         }
 
+
+
         //4. 创建日历对象
         Calendar calendar = Calendar.getInstance();
         //获取当前的年份
@@ -139,14 +141,12 @@ public class MemberServiceImpl implements MemberService {
         int count3 = 0;
         int count4 = 0;
 
-
         //将年龄段添加到集合中
         mbrMap.put("name", ageGroups);
 
-
-        //存放年龄段 和对应的会员数量
-        List<Map> ageMap = new ArrayList<>();
-        Map map = new HashMap();
+                                                                    //存放年龄段 和对应的会员数量
+                                                                    /*List<Map> ageMap = new ArrayList<>();*/
+                                                                /*    Map map = new HashMap();*/
 
         //6. 查询所有会员的出生日期
         List<String> brithdayList = memberDao.findMemberBrithday();
@@ -178,17 +178,15 @@ public class MemberServiceImpl implements MemberService {
                     count4++;
                 }
             }
-            //将年龄段添加到map中，将key修改成name
-            map.put("name", ageGroups);
+
             //创建List<Integer>，用于存放会员数
             List<Integer> ageList = new ArrayList<>();
             ageList.add(count1);
             ageList.add(count2);
             ageList.add(count3);
             ageList.add(count4);
-            map.put("value", ageList);
 
-            //
+            //创建List<Map> resultList : 用于将name 和 value 融合关联到一起
             List<Map> resultList = new ArrayList<>();
             for (int i=0;i<4;i++) {
                 Map map1 = new HashMap();
@@ -197,7 +195,7 @@ public class MemberServiceImpl implements MemberService {
                 resultList.add(map1);
             }
             //
-            ageMap.add(map);
+
             mbrMap.put("ageMap", resultList);
         }
 

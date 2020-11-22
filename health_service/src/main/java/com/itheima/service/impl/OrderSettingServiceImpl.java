@@ -86,11 +86,13 @@ public class OrderSettingServiceImpl implements OrderSettingService {
         }
     }
     /**
-     * 删除数据
+     * 定时清理预约设置历史数据
      */
     @Override
     public void CleanByLastDate() {
+        //获取日历的实例对象
         Calendar ca = Calendar.getInstance();
+        //每月最后一天
         ca.add(Calendar.MONTH,-1);
         Date date = ca.getTime();
         System.out.println("=================");
