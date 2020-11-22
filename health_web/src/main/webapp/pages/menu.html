@@ -106,7 +106,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单归属">
+                                            <el-form-item label="菜单类别">
                                                 <el-cascader v-model="formData.parentMenuId" :options="options" :show-all-levels="false" :props="{ expandTrigger: 'hover' }"></el-cascader>
                                             </el-form-item>
                                         </el-col>
@@ -172,7 +172,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单归属">
+                                            <el-form-item label="菜单类别">
                                                 <el-cascader v-model="formData.parentMenuId" :options="options" :show-all-levels="false" :props="{ expandTrigger: 'hover'}"></el-cascader>
                                             </el-form-item>
                                         </el-col>
@@ -233,7 +233,7 @@
 </body>
 
 <script>
-    var vue = new Vue({
+    var menu_vue = new Vue({
         el: '#app',
         data: {
             icons:[],//图标
@@ -254,22 +254,19 @@
         created() {
             this.findPage();
             this.icons = [
-                "fa-user-md","fa-tty","fa-stethoscope","fa-heartbeat","fa-users"
+                "","fa-user-md","fa-tty","fa-stethoscope","fa-heartbeat","fa-users"
             ]
         },
         methods: {
             //刷新菜单数据
            reflush() {
                window.parent.reflush();
-
             },
             //编辑
             handleEdit() {
-                //
-                //
                 axios.post("/menu/edit.do", this.formData).then(res => {
+                    //重置表单数据
                     this.resetForm();
-
                     //弹出窗口
                     this.dialogFormVisible4Edit = false;
                     this.$message({
@@ -281,11 +278,10 @@
             },
             //添加
             handleAdd() {
-
                 //提交表单数据
                 axios.post("/menu/add.do?", this.formData).then(res => {
+                    //重置表单数据
                     this.resetForm();
-
                     //弹出窗口
                     this.dialogFormVisible = false;
                     this.$message({
@@ -329,7 +325,6 @@
                     }
                     else {
                         this.$message.error(res.data.message);
-
                     }
                 });
                 //查询角色信息
@@ -340,7 +335,6 @@
                         } else{
                             this.$message.error(res.data.message);
                         }
-
                     }
                 );
             },
@@ -361,7 +355,6 @@
                     }
                     else {
                         this.$message.error(res.data.message);
-
                     }
                 });
                 //查询角色信息

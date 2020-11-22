@@ -6,6 +6,7 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Menu;
 import com.itheima.service.MenuService;
+import com.itheima.utils.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/menu")
@@ -164,5 +163,4 @@ public class MenuController {
         redis.del(username);
         redis.close();
     }
-
 }
