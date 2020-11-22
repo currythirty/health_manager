@@ -205,22 +205,23 @@
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
     <script>
+
         var vue = new Vue({
             el: '#app',
-            data:{
+            data: {
                 pagination: {//分页相关模型数据
-					  currentPage: 1,//当前页码
-					  pageSize:10,//每页显示的记录数
-					  total:0,//总记录数
-					  queryString:null//查询条件
-				},
-				dataList: [],//当前页要展示的分页列表数据
+                    currentPage: 1,//当前页码
+                    pageSize: 10,//每页显示的记录数
+                    total: 0,//总记录数
+                    queryString: null//查询条件
+                },
+                dataList: [],//当前页要展示的分页列表数据
                 formData: {},//表单数据
                 dialogFormVisible: false,//增加表单是否可见
-                dialogFormVisible4Edit:false,//编辑表单是否可见
+                dialogFormVisible4Edit: false,//编辑表单是否可见
                 rules: {//校验规则
-                    code: [{ required: true, message: '项目编码为必填项', trigger: 'blur' }],
-                    name: [{ required: true, message: '项目名称为必填项', trigger: 'blur' }]
+                    code: [{required: true, message: '项目编码为必填项', trigger: 'blur'}],
+                    name: [{required: true, message: '项目名称为必填项', trigger: 'blur'}]
                 }
             },
             //钩子函数，VUE对象初始化完成后自动执行
@@ -259,7 +260,6 @@
                             })
                         }
                     });
-
                 },
                 //分页查询
                 findPage() {
@@ -306,7 +306,7 @@
                     this.resetForm();
                     //弹出窗口
                     this.dialogFormVisible4Edit = true;
-                    //根据检查项id查询检查项对象 回显到弹出窗口中
+                    //根据权限id查询权限对象 回显到弹出窗口中
                     axios.get("/checkitem/findById.do?id="+row.id).then(res=>{
                         this.formData = res.data.data;
                     })

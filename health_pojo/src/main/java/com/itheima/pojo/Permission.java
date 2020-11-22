@@ -9,6 +9,7 @@ import java.util.Set;
  */
 public class Permission implements Serializable{
     private Integer id;
+    private String code;// 编码
     private String name; // 权限名称
     private String keyword; // 权限关键字，用于权限控制
     private String description; // 描述
@@ -20,6 +21,14 @@ public class Permission implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
