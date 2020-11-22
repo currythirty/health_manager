@@ -143,8 +143,10 @@ public class MenuController {
 
     /*按照权限获取菜单*/
     @RequestMapping("/getMenuByUserName")
-    public Result getMenuByUserName(String username){
+    public Result getMenuByUserName(){
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = user.getUsername();
             List<Map> menu = service.getMenuByUserName(username);
             return new Result(true,"查询成功",menu);
         } catch (Exception e) {

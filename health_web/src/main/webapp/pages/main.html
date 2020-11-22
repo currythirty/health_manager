@@ -94,9 +94,10 @@
             this.getUserName();
         },
         methods: {
+            //test
             //获取菜单
             getMenuByUserName:function(){
-              axios.post("/menu/getMenuByUserName.do?username="+this.username).then(
+              axios.post("/menu/getMenuByUserName.do?").then(
                   response=>{
                       if (response.data.flag){
                           this.menuList = response.data.data;

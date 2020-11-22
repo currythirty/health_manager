@@ -58,7 +58,7 @@
     <div class="app-container">
         <div class="box">
             <div class="filter-container">
-                <el-input placeholder="菜单名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                <el-input placeholder="一级菜单名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
                 <el-button @click="findPage()" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建菜单</el-button>
             </div>
@@ -206,7 +206,7 @@
                                     <el-row>
                                         <el-col :span="24">
                                             <el-form-item label="菜单权限">
-                                                    <el-select v-model="formData.rolesChecked" multiple placeholder="请选择">
+                                                    <el-select v-model="formData.rolesChecked" multiple placeholder="请选择" >
                                                         <el-option
                                                                 v-for="item in roles"
                                                                 :key="item.value"
@@ -259,8 +259,19 @@
         },
         methods: {
             //刷新菜单数据
-            reflush() {
-                parent.location.reload();
+
+           reflush() {
+            this.parent.location.reload();
+                 /*axios.post("/menu/getMenuByUserName.do?").then(
+                    response=>{
+                        if (response.data.flag){
+                            window.parent.main_vue.menuList = response.data.data;
+                        } else{
+                            this.$message.error(response.date.message);
+                        }
+                    }
+                );*/
+
             },
             //编辑
             handleEdit() {
