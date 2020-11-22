@@ -100,4 +100,15 @@
     <select id="findMemberTotalCount" resultType="int">
         select count(id) from t_member
     </select>
+
+    <!--获取List<Map> 会员性别、及对应的会员数量-->
+    <select id="findMemberNumberBySex" resultType="map">
+        select count(tm.id) value ,tm.sex name from t_member tm  where sex GROUP BY tm.sex
+    </select>
+
+    <!--查询所有会员的出生日期-->
+    <select id="findMemberBrithday" resultType="string">
+        select birthday from t_member
+    </select>
+
 </mapper>

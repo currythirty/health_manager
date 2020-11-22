@@ -26,5 +26,10 @@ public interface MemberService {
      */
     Map<String,Object> getMemberReport(Date start,Date end);
 
+    /*
+     * 会员数量占比饼图
+     *
+     * */
+    Map<String, Object> getMemberNumberReport() throws Exception;
     Map<String, Object> getYearMemberReport();
 }

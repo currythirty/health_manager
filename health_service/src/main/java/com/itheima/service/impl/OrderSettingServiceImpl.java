@@ -7,10 +7,7 @@ import com.itheima.service.OrderSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 预约设置业务逻辑处理层
@@ -68,6 +65,9 @@ public class OrderSettingServiceImpl implements OrderSettingService {
         editByOrderDate(orderSetting);
     }
 
+
+
+
     /**
      * 公共方法
      * @param orderSetting
@@ -85,4 +85,20 @@ public class OrderSettingServiceImpl implements OrderSettingService {
             orderSettingDao.add(orderSetting);
         }
     }
+    /**
+     * 删除数据
+     */
+    @Override
+    public void CleanByLastDate() {
+        Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.MONTH,-1);
+        Date date = ca.getTime();
+        System.out.println("=================");
+        System.out.println("=================");
+        System.out.println("=================");
+        System.out.println("=================");
+        System.out.println("=================");
+        orderSettingDao.cleanByLastDate(date);
+    }
+
 }

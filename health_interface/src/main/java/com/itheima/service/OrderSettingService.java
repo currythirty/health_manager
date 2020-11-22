@@ -17,9 +17,12 @@ public interface OrderSettingService {
     /**
      * 根据年月 查询预约设置数据List<Map></Map>
      */
+    //
     List<Map> getOrderSettingByYearMonth(String yearMonth);
     /**
      * 单个预约设置（根据预约日期修改可预约人数）
      */
     void editNumberByDate(OrderSetting orderSetting);
+
+    void CleanByLastDate();
 }
