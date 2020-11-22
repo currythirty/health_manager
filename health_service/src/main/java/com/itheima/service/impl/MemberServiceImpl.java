@@ -16,6 +16,7 @@ import java.util.*;
 /**
  * 会员服务实现
  */
+//
 @Service(interfaceClass = MemberService.class)
 @Transactional
 public class MemberServiceImpl implements MemberService {
