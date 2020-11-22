@@ -25,4 +25,9 @@ public interface MemberService {
      */
     Map<String,Object> getMemberReport();
 
+    /*
+     * 会员数量占比饼图
+     *
+     * */
+    Map<String, Object> getMemberNumberReport() throws Exception;
 }

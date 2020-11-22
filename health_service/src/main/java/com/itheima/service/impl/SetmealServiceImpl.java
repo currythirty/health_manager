@@ -19,10 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 套餐服务接口实现类
@@ -231,4 +228,5 @@ public class SetmealServiceImpl implements SetmealService {
             }
         }
     }
+
 }
