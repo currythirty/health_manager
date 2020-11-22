@@ -2,6 +2,7 @@ package com.itheima.service;
 
 import com.itheima.pojo.Member;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -23,6 +24,7 @@ public interface MemberService {
     /**
      * 会员数量折线图
      */
-    Map<String,Object> getMemberReport();
+    Map<String,Object> getMemberReport(Date start,Date end);
 
+    Map<String, Object> getYearMemberReport();
 }

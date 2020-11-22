@@ -13,7 +13,18 @@ public interface MemberDao {
     public Member findById(Integer id);
     public Member findByTelephone(String telephone);
     public void edit(Member member);
+
+    /**
+     * 会员数量折线图
+     * @param date
+     * @return
+     */
+    public Integer findMemberCountByMonth(String date);
+
     public Integer findMemberCountBeforeDate(String date);
+
+
+
     public Integer findMemberCountByDate(String date);
     public Integer findMemberCountAfterDate(String date);
     public Integer findMemberTotalCount();

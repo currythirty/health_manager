@@ -48,7 +48,48 @@ public class MemberServiceImpl implements MemberService {
      * 会员数量折线图
      */
     @Override
-    public Map<String, Object> getMemberReport() {
+    public Map<String, Object> getMemberReport(Date start,Date end) {
+
+        //获取年份的差
+        int year = end.getYear() - start.getYear();
+        //获取月份的差
+        int month01 = start.getMonth();
+        int month02 = end.getMonth();
+        Integer themonth = month02 -month01;
+        Integer allmonth = year*12+themonth;
+        //定义返回结果Map
+        Map<String,Object> rsMap = new HashMap<>();
+
+        //1.key:months—[2020-01,2020-02…最近一年]  --List<String>
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(end);
+        calendar.add(Calendar.MONTH,-allmonth);
+        //遍历获取每一个月年月 ，并将年月放入List<String>集合中
+        List<String>  months = new ArrayList<>();
+        for (int i = 1;i<=allmonth;i++){
+            months.add(new SimpleDateFormat("yyyy-MM").format(calendar.getTime()));
+            calendar.add(Calendar.MONTH,1);
+        }
+
+        rsMap.put("months",months);
+
+        //key:memberCount—[50,100,…最近一年]       List<Integer>
+        //select count(*) from t_member where regTime <= ‘2020-01-31’
+        List<Integer>  memberCount = new ArrayList<>();
+        if(months !=null && months.size()>0){
+            for (String month : months) {
+                //month 2020-07 ==> 2020-07-31
+               String newMonth = month + "-31";
+                Integer mc = memberDao.findMemberCountByMonth(newMonth);
+                memberCount.add(mc);
+            }
+        }
+        rsMap.put("memberCount",memberCount);
+        return rsMap;
+    }
+
+    @Override
+    public Map<String, Object> getYearMemberReport() {
         //定义返回结果Map
         Map<String,Object> rsMap = new HashMap<>();
 
@@ -70,15 +111,14 @@ public class MemberServiceImpl implements MemberService {
         if(months !=null && months.size()>0){
             for (String month : months) {
                 //month 2020-07 ==> 2020-07-31
-               String newMonth = month + "-31";
-                Integer mc = memberDao.findMemberCountBeforeDate(newMonth);
+                String newMonth = month + "-31";
+                Integer mc = memberDao.findMemberCountByMonth(newMonth);
                 memberCount.add(mc);
             }
         }
         rsMap.put("memberCount",memberCount);
         return rsMap;
     }
-
 
 
     public static void main(String[] args) {

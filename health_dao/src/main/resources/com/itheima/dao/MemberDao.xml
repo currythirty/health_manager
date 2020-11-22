@@ -76,6 +76,11 @@
         where id = #{id}
     </update>
 
+    <!--查询每个月及之前月份的会员总数-->
+    <select id="findMemberCountByMonth" resultType="int">
+        select count(*) from t_member where regTime &lt;= #{month}
+    </select>
+
     <!--根据日期统计会员数，统计指定日期之前的会员数-->
     <select id="findMemberCountBeforeDate" parameterType="string" resultType="int">
         select count(id) from t_member where regTime &lt;= #{value}
