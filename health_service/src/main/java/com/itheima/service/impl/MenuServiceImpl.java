@@ -44,10 +44,12 @@ public class MenuServiceImpl implements MenuService {
             menu.put("path",(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()==2){
             menu.put("parentMenuId", parentMenuId.get(1));
-            menu.put("path", "/"+parentMenuId.get(1)+"-"+(String)menu.get("priority"));
+            String path = dao.queryPath(parentMenuId.get(1));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }else if(parentMenuId !=null && parentMenuId.size()>2){
             menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
-            menu.put("path", "/"+parentMenuId.get(1)+"-"+(String)menu.get("priority"));
+            String path = dao.queryPath(parentMenuId.get(1));
+            menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
         }
         Menu m = new Menu();
         m.setName((String) menu.get("name"));
@@ -70,16 +72,30 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void editMenu(Map menu) {
-        List<Integer> parentMenuId = (List<Integer>) menu.get("parentMenuId");
-        if (parentMenuId !=null && parentMenuId.size()==1){
-            menu.put("parentMenuId",null);
-            menu.put("path",(String)menu.get("priority"));
-        }else if(parentMenuId !=null && parentMenuId.size()==2){
-            menu.put("parentMenuId", parentMenuId.get(1));
-            menu.put("path", "/"+parentMenuId.get(1)+"-"+(String)menu.get("priority"));
-        }else if(parentMenuId !=null && parentMenuId.size()>2){
-            menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
-            menu.put("path", "/"+parentMenuId.get(1)+"-"+(String)menu.get("priority"));
+        if(menu.get("parentMenuId") instanceof List){
+            List<Integer> parentMenuId = (List<Integer>) menu.get("parentMenuId");
+            if (parentMenuId !=null && parentMenuId.size()==1){
+                menu.put("parentMenuId",null);
+                menu.put("path",menu.get("priority"));
+            }else if(parentMenuId !=null && parentMenuId.size()==2){
+                menu.put("parentMenuId", parentMenuId.get(1));
+                String path = dao.queryPath(parentMenuId.get(1));
+                menu.put("path", "/"+path+"-"+menu.get("priority"));
+            }else if(parentMenuId !=null && parentMenuId.size()>2){
+                menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
+                String path = dao.queryPath(parentMenuId.get(1));
+                menu.put("path", "/"+path+"-"+menu.get("priority"));
+            }
+        }else{
+            Integer parentMenuId = (Integer) menu.get("parentMenuId");
+            if (parentMenuId ==null){
+                menu.put("parentMenuId",null);
+                menu.put("path",menu.get("priority"));
+            }else if(parentMenuId !=null){
+                menu.put("parentMenuId", parentMenuId);
+                String path = dao.queryPath(parentMenuId);
+                menu.put("path", "/"+path+"-"+menu.get("priority"));
+            }
         }
         dao.editMenu(menu);
         List<Integer> rolesChecked = (List<Integer>) menu.get("rolesChecked");
@@ -141,7 +157,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Map> getMenuByUserName(String username) {
         Jedis jedis = new Jedis("localhost");
         String result = jedis.get(username);
-        if (result!=null){
+        if (result!=null && result!=""){
             jedis.close();
             List<Map> list = JSONArray.parseArray(result,Map.class);
             return list;

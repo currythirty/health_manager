@@ -58,7 +58,7 @@
     <div class="app-container">
         <div class="box">
             <div class="filter-container">
-                <el-input placeholder="菜单名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                <el-input placeholder="一级菜单名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
                 <el-button @click="findPage()" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建菜单</el-button>
             </div>
@@ -106,7 +106,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单归属">
+                                            <el-form-item label="菜单类别">
                                                 <el-cascader v-model="formData.parentMenuId" :options="options" :show-all-levels="false" :props="{ expandTrigger: 'hover' }"></el-cascader>
                                             </el-form-item>
                                         </el-col>
@@ -172,7 +172,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单归属">
+                                            <el-form-item label="菜单类别">
                                                 <el-cascader v-model="formData.parentMenuId" :options="options" :show-all-levels="false" :props="{ expandTrigger: 'hover'}"></el-cascader>
                                             </el-form-item>
                                         </el-col>
@@ -206,7 +206,7 @@
                                     <el-row>
                                         <el-col :span="24">
                                             <el-form-item label="菜单权限">
-                                                    <el-select v-model="formData.rolesChecked" multiple placeholder="请选择">
+                                                    <el-select v-model="formData.rolesChecked" multiple placeholder="请选择" >
                                                         <el-option
                                                                 v-for="item in roles"
                                                                 :key="item.value"
@@ -233,7 +233,7 @@
 </body>
 
 <script>
-    var vue = new Vue({
+    var menu_vue = new Vue({
         el: '#app',
         data: {
             icons:[],//图标
@@ -254,15 +254,18 @@
         created() {
             this.findPage();
             this.icons = [
-                "fa-user-md","fa-tty","fa-stethoscope","fa-heartbeat","fa-users"
+                "","fa-user-md","fa-tty","fa-stethoscope","fa-heartbeat","fa-users"
             ]
         },
         methods: {
+            //刷新菜单数据
+           reflush() {
+               window.parent.reflush();
+            },
             //编辑
             handleEdit() {
-                //
-                //
                 axios.post("/menu/edit.do", this.formData).then(res => {
+                    //重置表单数据
                     this.resetForm();
                     //弹出窗口
                     this.dialogFormVisible4Edit = false;
@@ -271,13 +274,13 @@
                         type: res.data.flag ? 'success' : 'error'
                     });
                     this.findPage();//分页查询
-                })
+                });
             },
             //添加
             handleAdd() {
-
                 //提交表单数据
                 axios.post("/menu/add.do?", this.formData).then(res => {
+                    //重置表单数据
                     this.resetForm();
                     //弹出窗口
                     this.dialogFormVisible = false;
@@ -286,7 +289,7 @@
                         type: res.data.flag ? 'success' : 'error'
                     });
                     this.findPage();//分页查询
-                })
+                });
             },
             //分页查询
             findPage() {
@@ -300,6 +303,7 @@
                     this.pagination.total = res.data.total;
                     this.tableData = res.data.rows;
                 });
+                this.reflush();
             },
             // 重置表单
             resetForm() {
@@ -321,7 +325,6 @@
                     }
                     else {
                         this.$message.error(res.data.message);
-
                     }
                 });
                 //查询角色信息
@@ -332,7 +335,6 @@
                         } else{
                             this.$message.error(res.data.message);
                         }
-
                     }
                 );
             },
@@ -353,7 +355,6 @@
                     }
                     else {
                         this.$message.error(res.data.message);
-
                     }
                 });
                 //查询角色信息
@@ -401,12 +402,14 @@
                 }).then(() => {
                     //发送删除请求
                     axios.get("/menu/deleteById.do?id=" + id).then(res => {
+
                         this.$message({
                             message: res.data.message,
                             type: res.data.flag ? 'success' : 'error'
                         });
                         this.findPage();//分页查询
-                    })
+                    });
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',

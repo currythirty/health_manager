@@ -95,6 +95,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         //3.根据检查组id删除检查组记录
         checkGroupDao.deleteById(id);
     }
+
     /**
      * 查询所有检查组
      */

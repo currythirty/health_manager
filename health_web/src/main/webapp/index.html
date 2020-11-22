@@ -6,5 +6,20 @@
 </head>
 <body>
 hello web....
+<div>
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="新密码" prop="newPwd">
+            <el-input v-model="ruleForm.newPwd" clearable size="small" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="confirmPwd">
+            <el-input v-model="ruleForm.confirmPwd" clearable size="small" type="password"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')" class="button">确定</el-button>
+            <el-button @click="resetForm('ruleForm')" class="button">重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
 </body>
 </html>

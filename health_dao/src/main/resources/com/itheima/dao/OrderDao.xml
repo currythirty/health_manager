@@ -20,6 +20,8 @@
     </insert>
 
     <!--动态条件查询-->
+
+
     <select id="findByCondition" parameterType="com.itheima.pojo.Order" resultMap="baseResultMap">
         select * from t_order
         <where>
