@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
@@ -162,5 +163,16 @@ public class MenuController {
         String username = user.getUsername();
         redis.del(username);
         redis.close();
+    }
+
+    @RequestMapping(value = "/findAll",method = RequestMethod.POST)
+    public Result findAll(){
+        try {
+            List<Menu> menuList = service.findAll();
+            return new Result(true,"查询所有菜单数据成功",menuList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"查询所有菜单数据失败");
+        }
     }
 }
