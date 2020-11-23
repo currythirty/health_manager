@@ -95,7 +95,7 @@
                                 <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form ref="dataAddForm" :model="formData" rules="rules" label-position="right" label-width="100px">
+                                        <el-form ref="dataAddForm" :model="formData" status-icon :rules="rules" label-position="right" label-width="100px">
                                             <el-row>
                                                 <el-col :span="12">
                                                     <el-form-item label="用户账号" prop="username">
@@ -346,7 +346,7 @@
                 dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
                 dialogFormVisibleUpdateSecret:false,//修改密码窗口显示/隐藏
                 rules: {//校验规则
-                    username: [{ required: true, message: '用户名为必填项', trigger: 'blur' }],
+                    username: [{ required: true, message: '用户账号为必填项', trigger: 'blur' }],
                     password: [{ required: true, message: '密码为必填项', trigger: 'blur' }]
                 }
             },

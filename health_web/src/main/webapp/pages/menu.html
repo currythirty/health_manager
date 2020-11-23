@@ -98,15 +98,15 @@
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
-                                <el-form label-position="right" label-width="100px">
+                                <el-form label-position="right" label-width="100px" :model="formData" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
                                     <el-row>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单名称">
+                                            <el-form-item label="菜单名称" prop="name">
                                                 <el-input v-model="formData.name"/>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单类别">
+                                            <el-form-item label="菜单类别" prop="parentMenuId">
                                                 <el-cascader v-model="formData.parentMenuId" :options="options" :show-all-levels="false" :props="{ expandTrigger: 'hover' }"></el-cascader>
                                             </el-form-item>
                                         </el-col>
@@ -125,7 +125,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="优先级">
+                                            <el-form-item label="优先级" prop="priority">
                                                 <el-input v-model="formData.priority"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -249,7 +249,12 @@
             tableData: [],//列表数据
             formData: {},//表单数据
             dialogFormVisible: false,//控制添加窗口显示/隐藏
-            dialogFormVisible4Edit: false//控制编辑窗口显示/隐藏
+            dialogFormVisible4Edit: false,//控制编辑窗口显示/隐藏
+            rules: {//校验规则
+                name: [{required: true, message: '菜单名称为必填项', trigger: 'blur'}],
+                priority: [{required: true, message: '菜单优先级为必填项', trigger: 'blur'}],
+                parentMenuId: [{required: true, message: '菜单类别为必填项', trigger: 'blur'}],
+            }
         },
         created() {
             this.findPage();
