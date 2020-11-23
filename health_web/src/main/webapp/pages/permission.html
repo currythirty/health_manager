@@ -54,13 +54,13 @@
             <div class="app-container">
                 <div class="box">
                     <div class="filter-container">
-                        <el-input placeholder="权限组序号/权限组名称/权限关键字" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                        <el-input placeholder="权限组序号/名称/关键字" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
                         <el-button @click="handleCurrentChange(1)" class="dalfBut"  icon="el-icon-search">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()"  icon="el-icon-plus">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
-                        <el-table-column type="index" align="center" label="序号"></el-table-column>
-                        <el-table-column prop="code" label="权限组序号" align="center"></el-table-column>
+                        <!--<el-table-column type="index" align="center" label="序号"></el-table-column>-->
+                        <el-table-column prop="id" label="权限组序号" align="center"></el-table-column>
                         <el-table-column prop="name" label="权限组名称" align="center"></el-table-column>
                         <el-table-column prop="keyword" label="权限关键字" align="center"></el-table-column>
                         <el-table-column prop="description" label="权限描述" align="center"></el-table-column>
@@ -152,7 +152,7 @@
                     <!--查询关联角色-->
                     <div class="add-form">
                         <el-dialog title="关联角色" :visible.sync="dialogFormVisible4RoleName">
-                            <h1>{{RoleName}}</h1>
+                            <h1 v-for="name in RoleName">{{name}}</h1>
                             <div slot="footer" class="dialog-footer">
                                 <el-button type="primary" @click="handleAssociation(row)">确定</el-button>
                             </div>

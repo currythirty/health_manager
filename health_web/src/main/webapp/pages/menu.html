@@ -59,8 +59,8 @@
         <div class="box">
             <div class="filter-container">
                 <el-input placeholder="一级菜单名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
-                <el-button @click="findPage()" class="dalfBut">查询</el-button>
-                <el-button type="primary" class="butT" @click="handleCreate()">新建菜单</el-button>
+                <el-button @click="findPage()" icon="el-icon-search" class="dalfBut">查询</el-button>
+                <el-button type="primary" icon="el-icon-plus" class="butT" @click="handleCreate()">新建菜单</el-button>
             </div>
 
             <el-table :data="tableData" type="expand" style="width: 100%;margin-bottom: 20px;" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
@@ -76,8 +76,8 @@
                 <el-table-column prop="priority" label="优先级" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row.id)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row.id)">编辑</el-button>
+                        <el-button size="mini" type="danger"  icon="el-icon-delete" @click="handleDelete(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -318,10 +318,6 @@
                     //res.data;//Result对象
                     if (res.data.flag) {
                         this.options = res.data.data;
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                     }
                     else {
                         this.$message.error(res.data.message);
@@ -348,10 +344,6 @@
                     //res.data;//Result对象
                     if (res.data.flag) {
                         this.options = res.data.data;
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                     }
                     else {
                         this.$message.error(res.data.message);

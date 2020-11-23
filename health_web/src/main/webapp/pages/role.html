@@ -332,10 +332,6 @@
                     //res.data;//Result对象
                     if(res.data.flag){
                         this.MenuTableData = res.data.data;
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                     }
                     else {
                         this.$message.error(res.data.message);
@@ -346,10 +342,6 @@
                     //res.data;//Result对象
                     if(res.data.flag){
                         this.PermissionTableData = res.data.data;
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                     }
                     else {
                         this.$message.error(res.data.message);
@@ -364,17 +356,9 @@
                 // 并回显角色数据
                 axios.get("/rolemanagement/findById.do?roleId="+row.id).then(res=>{
                     this.formData = res.data.data;//回显角色数据
-                    this.$message({
-                        message: res.data.message,
-                        type: 'success'
-                    });
                     //查询所有菜单数据
                     axios.post("/menu/findAll.do").then(res=>{
                         this.MenuTableData = res.data.data;//回显所有菜单数据
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                         // 关联的菜单项   根据角色信息id 查询菜单数据ids
                         axios.get("/rolemanagement/findMenuIdsByRoleId.do?roleId="+row.id).then(res=>{
                             //后台返回的List<Integer> [28,29,30]
@@ -384,10 +368,6 @@
                     //查询所有权限许可
                     axios.post("/permission/findAll.do").then(res=>{
                         this.PermissionTableData = res.data.data;//回显所有权限许可
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                         // 关联的检查项   根据角色信息id 查询权限许可ids
                         axios.get("/rolemanagement/findPermissionIdsByRoleId.do?roleId="+row.id).then(res=>{
                             //后台返回的List<Integer> [28,29,30]
