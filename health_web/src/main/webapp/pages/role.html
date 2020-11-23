@@ -86,19 +86,19 @@
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
-                                <el-form label-position="right" label-width="100px">
+                                <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                     <el-row>
                                         <el-col :span="12">
-                                            <el-form-item label="角色名称">
-                                                <el-input v-model="formData.name"/>
+                                            <el-form-item label="角色名称" prop="name">
+                                                <el-input  v-model="formData.name"/>
                                             </el-form-item>
                                         </el-col>
                                     </el-row>
 
                                     <el-row>
                                         <el-col :span="24">
-                                            <el-form-item label="关键字">
-                                                <el-input v-model="formData.keyword" type="textarea"></el-input>
+                                            <el-form-item label="关键字" prop="keyword">
+                                                <el-input  v-model="formData.keyword" type="textarea"></el-input>
                                             </el-form-item>
                                         </el-col>
                                     </el-row>
@@ -268,7 +268,11 @@
             menuIds:[],//新增和编辑表单中菜单数据对应的复选框，基于双向绑定可以进行回显和数据提交
             permissionIds:[],//新增和编辑表单中权限许可对应的复选框，基于双向绑定可以进行回显和数据提交
             dialogFormVisible: false,//控制添加窗口显示/隐藏
-            dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
+            dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
+            rules: {//校验规则
+                name: [{required: true, message: '角色名称为必填项', trigger: 'blur'}],
+                keyword: [{required: true, message: '关键字为必填项', trigger: 'blur'}]
+            }
         },
         created() {
             this.findPage();
@@ -289,18 +293,23 @@
             },
             //添加
             handleAdd () {
-                //验证表单（省略了。。。）
-                //提交表单数据
-                axios.post("/rolemanagement/add.do?menuIds="+this.menuIds + "&permissionIds="+this.permissionIds,this.formData).then(res=>{
-                    this.resetForm();
-                    //弹出窗口
-                    this.dialogFormVisible = false;
-                    this.$message({
-                        message: res.data.message,
-                        type: res.data.flag ? 'success':'error'
-                    });
-                    this.findPage();//分页查询
-                })
+                //验证表单
+                //前端验证非常重要
+                this.$refs["dataAddForm"].validate((valid) => {
+                    if (valid) {
+                        //提交表单数据
+                        axios.post("/rolemanagement/add.do?menuIds=" + this.menuIds + "&permissionIds=" + this.permissionIds, this.formData).then(res => {
+                            this.resetForm();
+                            //弹出窗口
+                            this.dialogFormVisible = false;
+                            this.$message({
+                                message: res.data.message,
+                                type: res.data.flag ? 'success' : 'error'
+                            });
+                            this.findPage();//分页查询
+                        })
+                    }
+                });
             },
             //分页查询
             findPage() {
