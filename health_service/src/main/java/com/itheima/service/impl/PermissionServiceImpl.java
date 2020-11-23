@@ -90,4 +90,13 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionDao.findAll();
 
     }
+
+    /**
+     * 查询关联角色
+     * @param id
+     */
+    @Override
+    public List<String> findRoleName(Integer id) {
+        return permissionDao.findRoleName(id);
+    }
 }

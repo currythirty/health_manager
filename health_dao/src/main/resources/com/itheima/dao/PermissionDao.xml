@@ -55,4 +55,12 @@
     <select id="findAll" resultType="com.itheima.pojo.Permission">
         select * from t_permission
     </select>
+
+    <!--查询关联角色-->
+    <select id="findRoleName" parameterType="int" resultType="string">
+        select r.name
+        from t_role_permission trp ,t_role r
+        where trp.role_id =r.id
+        and trp.permission_id=#{id}
+    </select>
 </mapper>

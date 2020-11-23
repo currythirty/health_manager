@@ -27,4 +27,9 @@ public interface PermissionService {
 
     List<Permission> findAll();
 
+    /**
+     * 查询关联角色
+     * @param id
+     */
+    List<String> findRoleName(Integer id);
 }

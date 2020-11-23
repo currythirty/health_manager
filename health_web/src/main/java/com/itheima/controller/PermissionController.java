@@ -96,14 +96,27 @@ public class PermissionController {
     }
 
     @RequestMapping("/findAll")
-    public Result findAll(){
+    public Result findAll() {
         try {
             List<Permission> permissionList = permissionService.findAll();
-            return new Result(true,"查询所有权限成功",permissionList);
+            return new Result(true, "查询所有权限成功", permissionList);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"查询所有权限失败");
+            return new Result(false, "查询所有权限失败");
         }
     }
 
+    /**
+     * 查询关联角色
+     */
+    @RequestMapping(value = "/findRoleName", method = RequestMethod.GET)
+    public Result findRoleName(Integer id) {
+        try {
+            List<String> roleName = permissionService.findRoleName(id);
+            return new Result(true, "查询成功", roleName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "查询失败");
+        }
+    }
 }

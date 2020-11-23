@@ -55,7 +55,7 @@
                 <div class="box">
                     <div class="filter-container">
                         <el-input placeholder="权限组序号/权限组名称/权限关键字" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
-                        <el-button @click="findPage()" class="dalfBut"  icon="el-icon-search">查询</el-button>
+                        <el-button @click="handleCurrentChange(1)" class="dalfBut"  icon="el-icon-search">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()"  icon="el-icon-plus">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -151,11 +151,10 @@
 
                     <!--查询关联角色-->
                     <div class="add-form">
-                        <el-dialog title="新增权限" :visible.sync="dialogFormVisible4Association">
-
+                        <el-dialog title="关联角色" :visible.sync="dialogFormVisible4RoleName">
+                            <h1>{{RoleName}}</h1>
                             <div slot="footer" class="dialog-footer">
-                                <el-button @click="dialogFormVisible = false">取消</el-button>
-                                <el-button type="primary" @click="handleAdd()">确定</el-button>
+                                <el-button type="primary" @click="handleAssociation(row)">确定</el-button>
                             </div>
                         </el-dialog>
                     </div>
@@ -175,19 +174,19 @@
                     total:100,
                     queryString:null,
                 },
+                RoleName: [],//角色名称
                 dataList: [],//列表数据
                 formData: {},//表单数据
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
                 dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
-                dialogFormVisible4Association:false,//管理关联角色窗口显示/隐藏
+                dialogFormVisible4RoleName:false,//控制查询关联角色窗口显示/隐藏
                 rules:{
                     code:[{required:true, message:'编码为必填项', trigger:'blur'}],
                     name:[{required:true, message:'编码为必填项', trigger:'blur'}],
                     keyword:[{required:true, message:'编码为必填项', trigger:'blur'}],
                     description:[{required:true, message:'编码为必填项', trigger:'blur'}]
-                }
+                },
             },
-
 
 
             created() {
@@ -292,7 +291,14 @@
                 // 查询关联角色
                 handleAssociation(row) {
                     //弹出查询关联角色窗口
-                    this.dialogFormVisible4Association = true;
+                    this.dialogFormVisible4RoleName = true;
+                    axios.get("/permission/findRoleName.do?id="+row.id).then(res=>{
+                        this.RoleName = res.data.data;
+                        this.$message({
+                            message:res.data.message,
+                            type:res.data.flag ? 'success':'error'
+                        });
+                    })
                 }
             }
         })

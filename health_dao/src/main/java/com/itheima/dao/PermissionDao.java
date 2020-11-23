@@ -58,5 +58,9 @@ public interface PermissionDao {
      */
     void edit(Permission permission);
 
-
+    /**
+     * 查询关联角色
+     * @param id
+     */
+    List<String> findRoleName(Integer id);
 }
