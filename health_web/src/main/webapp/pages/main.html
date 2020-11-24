@@ -98,7 +98,10 @@
             this.getUserName();
         },
         methods: {
-            //test
+            //清缓存
+            cleanRedis:function(){
+                axios.post("/menu/cleanRedis.do?").then();
+            },
             //获取菜单
             getMenuByUserName:function(){
                 let myDate = new Date();
@@ -116,6 +119,8 @@
             getUserName(){
                 axios.get("/user/getUserName.do").then(res=>{
                     this.username = res.data.data;
+                    //清缓存
+                    this.cleanRedis();
                     //按照用户权限获取菜单
                     this.getMenuByUserName();
                 })

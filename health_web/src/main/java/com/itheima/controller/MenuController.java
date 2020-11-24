@@ -156,6 +156,13 @@ public class MenuController {
         }
     }
 
+    /*刷新菜时清空Redis缓存*/
+    @RequestMapping("/cleanRedis")
+    public void cleanRedisAtLogin(){
+        cleanRedis();
+    }
+
+
     /*删除redis内的用户对应的菜单数据*/
     private void cleanRedis(){
         Jedis redis = new Jedis();
