@@ -7,7 +7,7 @@
     <select id="selectByCondition" parameterType="string" resultType="com.itheima.pojo.User">
         select * from t_user
         <if test="value != null and value.length > 0">
-            where name = #{value} or telephone = #{value}
+            where username = #{value} or telephone = #{value}
         </if>
     </select>
 
@@ -18,7 +18,7 @@
 
     <!--新增用户-->
     <insert id="add" parameterType="com.itheima.pojo.User">
-        /*获取检查组id*/
+        /*获取角色id*/
         <selectKey resultType="int" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
