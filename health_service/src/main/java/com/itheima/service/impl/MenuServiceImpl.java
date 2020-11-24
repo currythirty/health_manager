@@ -42,14 +42,17 @@ public class MenuServiceImpl implements MenuService {
         if (parentMenuId !=null && parentMenuId.size()==1){
             menu.put("parentMenuId",null);
             menu.put("path",(String)menu.get("priority"));
+            menu.put("level",1);
         }else if(parentMenuId !=null && parentMenuId.size()==2){
             menu.put("parentMenuId", parentMenuId.get(1));
             String path = dao.queryPath(parentMenuId.get(1));
             menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
+            menu.put("level",2);
         }else if(parentMenuId !=null && parentMenuId.size()>2){
             menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
             String path = dao.queryPath(parentMenuId.get(1));
             menu.put("path", "/"+path+"-"+(String)menu.get("priority"));
+            menu.put("level",2);
         }
         Menu m = new Menu();
         m.setName((String) menu.get("name"));
@@ -58,8 +61,9 @@ public class MenuServiceImpl implements MenuService {
         m.setPath((String) menu.get("path"));
         m.setPriority(Integer.parseInt((String) menu.get("priority")));
         m.setParentMenuId((Integer) menu.get("parentMenuId"));
+        m.setLevel((Integer) menu.get("level"));
         dao.addMenu(m);
-        List<Integer> rolesChecked = (List<Integer>) m.getRolesChecked();
+        List<Integer> rolesChecked = (List<Integer>) menu.get("rolesChecked");
         if (rolesChecked !=null && rolesChecked.size()>0)
         for (Integer i : rolesChecked) {
             Map map = new HashMap();
@@ -75,29 +79,52 @@ public class MenuServiceImpl implements MenuService {
         if(menu.get("parentMenuId") instanceof List){
             List<Integer> parentMenuId = (List<Integer>) menu.get("parentMenuId");
             if (parentMenuId !=null && parentMenuId.size()==1){
-                menu.put("parentMenuId",null);
-                menu.put("path",menu.get("priority"));
+                if (queryParentMenu((Integer) menu.get("id"))){
+                    menu.put("parentMenuId",null);
+                    menu.put("path",menu.get("priority"));
+                    menu.put("level",1);
+                    dao.editMenu4Main(menu);
+                }else{
+                    menu.put("parentMenuId",null);
+                    menu.put("path",menu.get("priority"));
+                    menu.put("level",1);
+                    dao.editMenu(menu);
+                }
             }else if(parentMenuId !=null && parentMenuId.size()==2){
                 menu.put("parentMenuId", parentMenuId.get(1));
                 String path = dao.queryPath(parentMenuId.get(1));
                 menu.put("path", "/"+path+"-"+menu.get("priority"));
+                menu.put("level",2);
+                dao.editMenu(menu);
             }else if(parentMenuId !=null && parentMenuId.size()>2){
                 menu.put("parentMenuId", parentMenuId.get((parentMenuId.size()-1)));
                 String path = dao.queryPath(parentMenuId.get(1));
                 menu.put("path", "/"+path+"-"+menu.get("priority"));
+                menu.put("level",2);
+                dao.editMenu(menu);
             }
         }else{
             Integer parentMenuId = (Integer) menu.get("parentMenuId");
-            if (parentMenuId ==null){
-                menu.put("parentMenuId",null);
-                menu.put("path",menu.get("priority"));
+            if (parentMenuId == 0 ){
+                if (queryParentMenu((Integer) menu.get("id"))){
+                    menu.put("parentMenuId",null);
+                    menu.put("path",menu.get("priority"));
+                    menu.put("level",1);
+                    dao.editMenu4Main(menu);
+                }else{
+                    menu.put("parentMenuId",null);
+                    menu.put("path",menu.get("priority"));
+                    menu.put("level",1);
+                    dao.editMenu(menu);
+                }
             }else if(parentMenuId !=null){
                 menu.put("parentMenuId", parentMenuId);
                 String path = dao.queryPath(parentMenuId);
                 menu.put("path", "/"+path+"-"+menu.get("priority"));
+                menu.put("level",2);
+                dao.editMenu(menu);
             }
         }
-        dao.editMenu(menu);
         List<Integer> rolesChecked = (List<Integer>) menu.get("rolesChecked");
         if (rolesChecked !=null && rolesChecked.size()>0) {
             dao.deleteRoleMenu((Integer)menu.get("id"));

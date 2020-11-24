@@ -20,14 +20,14 @@
     <select id="selectByCondition" parameterType="string" resultType="com.itheima.pojo.Permission">
         select * from t_permission
         <if test="value != null and value.length > 0">
-            where code = #{value} or name = #{value} or keyword = #{value}
+            where id = #{value} or name = #{value} or keyword = #{value}
         </if>
     </select>
 
     <!--新增权限-->
     <insert id="add" parameterType="com.itheima.pojo.Permission">
-        insert into t_permission (code, name, keyword, description)
-        values (#{code},#{name},#{keyword},#{description})
+        insert into t_permission (name, keyword, description)
+        values (#{name},#{keyword},#{description})
     </insert>
 
     <!--根据权限id查询权限数据-->

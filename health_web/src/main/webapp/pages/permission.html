@@ -88,11 +88,6 @@
                             <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="权限编码" prop="code">
-                                            <el-input v-model="formData.code"/>
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="12">
                                         <el-form-item label="权限名称" prop="name">
                                             <el-input v-model="formData.name"/>
                                         </el-form-item>
@@ -181,10 +176,8 @@
                 dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
                 dialogFormVisible4RoleName:false,//控制查询关联角色窗口显示/隐藏
                 rules:{
-                    code:[{required:true, message:'编码为必填项', trigger:'blur'}],
-                    name:[{required:true, message:'编码为必填项', trigger:'blur'}],
-                    keyword:[{required:true, message:'编码为必填项', trigger:'blur'}],
-                    description:[{required:true, message:'编码为必填项', trigger:'blur'}]
+                    name:[{required:true, message:'名称为必填项', trigger:'blur'}],
+                    keyword:[{required:true, message:'关键字为必填项', trigger:'blur'}]
                 },
             },
 
