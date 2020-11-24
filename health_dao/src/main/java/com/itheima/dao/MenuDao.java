@@ -52,4 +52,5 @@ public interface MenuDao {
     @Select("select path from t_menu where id = #{integer}")
     String queryPath(Integer integer);
 
+    void editMenu4Main(Map menu);
 }

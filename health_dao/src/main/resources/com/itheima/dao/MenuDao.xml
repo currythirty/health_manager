@@ -21,7 +21,7 @@
         select id,name,linkUrl,icon,path,priority
         from t_menu
         <if test="queryString != null and queryString.length > 0">
-            where name = #{queryString}
+            where name = #{queryString} and parentMenuId is not null
         </if>
     </select>
 
@@ -29,8 +29,8 @@
         <selectKey resultType="int" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into t_menu(name,linkUrl,icon,path,priority,parentMenuId)
-        values(#{name},#{linkUrl},#{icon},#{path},#{priority},#{parentMenuId})
+        insert into t_menu(name,linkUrl,icon,path,priority,parentMenuId,level)
+        values(#{name},#{linkUrl},#{icon},#{path},#{priority},#{parentMenuId},#{level})
     </insert>
 
     <insert id="addRoleMenu" parameterType="map">
@@ -38,8 +38,13 @@
         values(#{role_id},#{menu_id})
     </insert>
 
+    <update id="editMenu4Main" parameterType="map">
+        update t_menu set name = #{name},linkUrl = #{linkUrl},icon = #{icon},path = #{path},priority = #{priority},level = #{level}
+        where id = #{id}
+    </update>
+
     <update id="editMenu" parameterType="map">
-        update t_menu set name = #{name},linkUrl = #{linkUrl},icon = #{icon},path = #{path},priority = #{priority},parentMenuId = #{parentMenuId}
+        update t_menu set name = #{name},linkUrl = #{linkUrl},icon = #{icon},path = #{path},priority = #{priority},parentMenuId = #{parentMenuId},level = #{level}
         where id = #{id}
     </update>
 
