@@ -17,6 +17,16 @@ public class User implements Serializable{
     private String remark; // 备注
     private String station; // 状态
     private String telephone; // 联系电话
+    private String checkPassword;//校验密码
+
+    public String getCheckPassword() {
+        return checkPassword;
+    }
+
+    public void setCheckPassword(String checkPassword) {
+        this.checkPassword = checkPassword;
+    }
+
     private Set<Role> roles = new HashSet<Role>(0);//对应角色集合
 
     public Integer getId() {

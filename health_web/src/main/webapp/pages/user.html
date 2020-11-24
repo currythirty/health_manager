@@ -112,6 +112,14 @@
                                             </el-row>
 
                                             <el-row>
+                                                <el-col :span="12">
+                                                    <el-form-item label="确认密码" prop="checkPassword">
+                                                        <el-input type="password" v-model="formData.checkPassword" ></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                            </el-row>
+
+                                            <el-row>
                                             <el-col :span="12">
                                                 <el-form-item label="适用性别">
                                                     <el-select v-model="formData.gender">
@@ -294,18 +302,26 @@
                                     <el-tab-pane label="编辑密码" name="first">
                                         <el-form ref="dataAddForm" :model="formData" rules="rules" label-position="right" label-width="100px">
 
-                                            <el-row>
+                                           <!-- <el-row>
                                                 <el-col :span="12">
                                                     <el-form-item label="原始密码" prop="password">
                                                         <el-input v-model="formData.password" ></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                            </el-row>-->
+
+                                            <el-row>
+                                                <el-col :span="12">
+                                                    <el-form-item label="输入新密码">
+                                                        <el-input v-model="formData.newPassword" ></el-input>
                                                     </el-form-item>
                                                 </el-col>
                                             </el-row>
 
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="输入新密码">
-                                                        <el-input v-model="formData.newPassword" ></el-input>
+                                                    <el-form-item label="确认密码">
+                                                        <el-input v-model="formData.checkPassword" ></el-input>
                                                     </el-form-item>
                                                 </el-col>
                                             </el-row>
@@ -328,6 +344,8 @@
     </body>
 
     <script>
+
+
         var vue = new Vue({
             el: '#app',
             data:{
@@ -373,14 +391,20 @@
                         if (valid) {
                             //提交表单数据  提交用户信息以及勾选用户ids Integer[] checkItemIds
                             axios.post("/user_role/add.do?roleIds=" + this.roleIds, this.formData).then(res => {
-                                this.resetForm();
-                                //弹出窗口
-                                this.dialogFormVisible = false;
-                                this.$message({
-                                    message: res.data.message,
-                                    type: res.data.flag ? 'success' : 'error'
-                                });
-                                this.findPage();//分页查询
+                                //this.resetForm();
+                                if(res.data.flag){//弹出窗口
+                                    this.dialogFormVisible = false;
+                                    this.$message({
+                                        message: res.data.message,
+                                        type: res.data.flag ? 'success' : 'error'
+                                    });
+                                    this.findPage();//分页查询
+                                }else {
+                                    this.$message({
+                                        message: res.data.message,
+                                        type: res.data.flag ? 'success' : 'error'
+                                    });
+                                }
                             })
                         }
                     });
@@ -457,8 +481,8 @@
                 //修改密码
                 updateSecret(){
                     axios.post("/user_role/updateSecret.do",this.formData).then(res=>{
-                        this.dialogFormVisibleUpdateSecret=false;
                         if(res.data.flag){
+                            this.dialogFormVisibleUpdateSecret=false;
                             this.tableData = res.data.data;
                             this.$message({
                                 message: res.data.message,
