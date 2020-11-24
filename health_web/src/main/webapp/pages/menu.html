@@ -59,8 +59,8 @@
         <div class="box">
             <div class="filter-container">
                 <el-input placeholder="一级菜单名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
-                <el-button @click="findPage()" class="dalfBut">查询</el-button>
-                <el-button type="primary" class="butT" @click="handleCreate()">新建菜单</el-button>
+                <el-button @click="findPage()" icon="el-icon-search" class="dalfBut">查询</el-button>
+                <el-button type="primary" icon="el-icon-plus" class="butT" @click="handleCreate()">新建菜单</el-button>
             </div>
 
             <el-table :data="tableData" type="expand" style="width: 100%;margin-bottom: 20px;" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
@@ -76,12 +76,12 @@
                 <el-table-column prop="priority" label="优先级" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row.id)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(scope.row.id)">编辑</el-button>
+                        <el-button size="mini" type="danger"  icon="el-icon-delete" @click="handleDelete(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-
+        <!--分页组件-->
             <div class="pagination-container">
                 <el-pagination
                         class="pagiantion"
@@ -98,15 +98,15 @@
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
-                                <el-form label-position="right" label-width="100px">
+                                <el-form label-position="right" label-width="100px" :model="formData" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
                                     <el-row>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单名称">
+                                            <el-form-item label="菜单名称" prop="name">
                                                 <el-input v-model="formData.name"/>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="菜单类别">
+                                            <el-form-item label="菜单类别" prop="parentMenuId">
                                                 <el-cascader v-model="formData.parentMenuId" :options="options" :show-all-levels="false" :props="{ expandTrigger: 'hover' }"></el-cascader>
                                             </el-form-item>
                                         </el-col>
@@ -125,7 +125,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="优先级">
+                                            <el-form-item label="优先级" prop="priority">
                                                 <el-input v-model="formData.priority"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -249,7 +249,12 @@
             tableData: [],//列表数据
             formData: {},//表单数据
             dialogFormVisible: false,//控制添加窗口显示/隐藏
-            dialogFormVisible4Edit: false//控制编辑窗口显示/隐藏
+            dialogFormVisible4Edit: false,//控制编辑窗口显示/隐藏
+            rules: {//校验规则
+                name: [{required: true, message: '菜单名称为必填项', trigger: 'blur'}],
+                priority: [{required: true, message: '菜单优先级为必填项', trigger: 'blur'}],
+                parentMenuId: [{required: true, message: '菜单类别为必填项', trigger: 'blur'}],
+            }
         },
         created() {
             this.findPage();
@@ -318,10 +323,6 @@
                     //res.data;//Result对象
                     if (res.data.flag) {
                         this.options = res.data.data;
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                     }
                     else {
                         this.$message.error(res.data.message);
@@ -348,10 +349,6 @@
                     //res.data;//Result对象
                     if (res.data.flag) {
                         this.options = res.data.data;
-                        this.$message({
-                            message: res.data.message,
-                            type: 'success'
-                        });
                     }
                     else {
                         this.$message.error(res.data.message);

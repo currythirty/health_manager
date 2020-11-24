@@ -95,4 +95,8 @@
         <!--数据库字段与pojo类属性名相同省略不写-->
         <collection property="children" column="id" select="queryMenuByParent"></collection>
     </resultMap>
+
+    <select id="findAll" resultType="com.itheima.pojo.Menu">
+        select * from t_menu
+    </select>
 </mapper>

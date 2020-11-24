@@ -170,4 +170,9 @@ public class MenuServiceImpl implements MenuService {
             return menu;
         }
     }
+
+    @Override
+    public List<Menu> findAll() {
+        return dao.findAll();
+    }
 }

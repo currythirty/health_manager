@@ -10,10 +10,12 @@ import java.util.Map; /**
  * 预约设置持久接口
  */
 public interface OrderSettingDao {
-    /**
-     * 删除数据
-     */
-    @Delete("delete  from t_ordersetting where orderDate < #{orderDate}")
+
+    /*
+    * 定时清理预约设置历史数据
+    *
+    * */
+    @Delete("delete from t_ordersetting where orderDate < #{orderDate}")
     void cleanByLastDate(Date orderDate);
 
     /**
