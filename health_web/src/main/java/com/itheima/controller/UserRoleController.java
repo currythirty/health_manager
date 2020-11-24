@@ -45,11 +45,18 @@ public class UserRoleController {
 
 
         try {
+            String checkPassword = user.getCheckPassword();
+            String password = user.getPassword();
+            if (!password.equals(checkPassword)) {
+                return new Result(false,"两次输入密码不同");
+            }
+
             String username = user.getUsername();
             User user1=userRoleService.findName(username);
             if (user1 != null) {
                 return  new Result(false,"用户名已存在,请重新输入！");
             }
+
             user.setPassword(b.encode(user.getPassword()));
             userRoleService.add(user,roleIds);
             return new Result(true,"新增用户成功！");
@@ -121,7 +128,11 @@ public class UserRoleController {
     @RequestMapping(value = "/updateSecret", method = RequestMethod.POST)
     public Result updateSecret(@RequestBody Map map) {
         try {
+            String checkPassword =(String) map.get("checkPassword");
             String newPassword =(String) map.get("newPassword");
+            if (!newPassword.equals(checkPassword)) {
+                return new Result(false,"两次输入的密码不相同");
+            }
             String encode = b.encode(newPassword);
             map.put("encode",encode);
             userRoleService.updateSecret(map);
