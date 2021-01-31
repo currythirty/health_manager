@@ -53,7 +53,6 @@ public class UserRoleServiceImpl implements UserRoleService {
     //删除用户
     @Override
     public void deleteById(Integer id) {
-        //1.根据检查组id查询检查组检查项中间表（count(*)）
         int count1 = userRoleDao.findCountRoleByUserId(id);
         if(count1>0){
             throw new RuntimeException("用户和角色有关联，无法删除！");

@@ -39,5 +39,6 @@ public interface UserRoleDao {
     //查询是否存在
     User findName(String username);
 
+    //修改密码
     void updateSecret(Map map);
 }

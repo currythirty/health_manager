@@ -43,7 +43,6 @@ public class UserRoleController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result add(@RequestBody User user, Integer[] roleIds) {
 
-
         try {
             String checkPassword = user.getCheckPassword();
             String password = user.getPassword();
@@ -79,6 +78,7 @@ public class UserRoleController {
         }
     }
 
+
     //删除用户
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public Result deleteById(Integer id) {
@@ -94,6 +94,7 @@ public class UserRoleController {
         }
     }
 
+
     //根据用户ID查询用户
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public Result findById(Integer userId) {
@@ -106,11 +107,13 @@ public class UserRoleController {
         }
     }
 
+
     //根据用户id查询用户关联角色id
     @RequestMapping(value = "/findRoleIdsByUserId", method = RequestMethod.GET)
     public List<Integer> findRoleIdsByUserId(Integer userId) {
         return userRoleService.findRoleIdsByUserId(userId);
     }
+
 
     //编辑用户
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -123,6 +126,7 @@ public class UserRoleController {
             return new Result(false,"编辑用户失败");
         }
     }
+
 
     //修改密码
     @RequestMapping(value = "/updateSecret", method = RequestMethod.POST)
@@ -142,5 +146,7 @@ public class UserRoleController {
             return new Result(false,"修改密码失败");
         }
     }
+
+
 
 }

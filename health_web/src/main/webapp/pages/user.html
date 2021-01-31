@@ -344,8 +344,6 @@
     </body>
 
     <script>
-
-
         var vue = new Vue({
             el: '#app',
             data:{
@@ -368,6 +366,7 @@
                     password: [{ required: true, message: '密码为必填项', trigger: 'blur' }]
                 }
             },
+                //钩子函数
                 created() {
                 this.findPage();
             },
@@ -385,6 +384,7 @@
                         this.findPage();//分页查询
                     })
                 },
+
                 //添加
                 handleAdd () {
                     this.$refs["dataAddForm"].validate((valid) => {
@@ -417,7 +417,6 @@
                         pageSize:this.pagination.pageSize,
                         queryString:this.pagination.queryString
                     }
-
                     axios.post("/user_role/findPage.do",parms).then(res=>{
                         //后台返回的是PageResult total rows
                         this.pagination.total = res.data.total;
@@ -434,7 +433,7 @@
 
                 // 弹出添加窗口
                 handleCreate() {
-                    //清空表单数据 以及 默认选中第一个选项卡
+                    //清空表单数据及默认选中第一个选项卡
                     this.resetForm();
                     this.dialogFormVisible = true;
                     axios.post("/user_role/findRole.do").then(res=>{
@@ -444,7 +443,6 @@
                         }
                         else {
                             this.$message.error(res.data.message);
-
                         }
                     })
                 },
@@ -456,11 +454,9 @@
                     // 并回显用户信息
                     axios.get("/user_role/findById.do?userId="+row.id).then(res=>{
                         this.formData = res.data.data;//回显用户数据
-
                         //查询所有角色
                         axios.post("/user_role/findRole.do").then(res=>{
                             this.tableData = res.data.data;//回显所有角色数据
-
                             // 根据用户id查询关联的角色ids
                             axios.get("/user_role/findRoleIdsByUserId.do?userId="+row.id).then(res=>{
                                 //后台返回的List<Integer>
@@ -470,14 +466,13 @@
                     })
                 },
 
-                //tC密码
+                //弹出修改密码窗口
                 handleUpdateSecret(row){
                     this.dialogFormVisibleUpdateSecret =true;
                     axios.get("/user_role/findById.do?userId="+row.id).then(res=>{
-                        this.formData = res.data.data;//回显用户数据
+                        this.formData = res.data.data;//回显用户数据以得到该行的用户id
                     })
                 },
-
                 //修改密码
                 updateSecret(){
                     axios.post("/user_role/updateSecret.do",this.formData).then(res=>{
@@ -495,15 +490,15 @@
                     })
                 },
 
-
                 //切换页码
                 handleCurrentChange(currentPage) {
                     this.pagination.currentPage = currentPage;
                     this.findPage();
                 },
+
                 // 删除
                 handleDelete(row) {
-                    this.$confirm('此操作将永久删除检查组记录, 是否继续?', '提示', {
+                    this.$confirm('此操作将永久删除用户记录, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
@@ -517,10 +512,10 @@
                             this.findPage();//分页查询
                         })
                     }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
+                        // this.$message({
+                        //     type: 'info',
+                        //     message: '已取消删除'
+                        // });
                     });
                 }
             }

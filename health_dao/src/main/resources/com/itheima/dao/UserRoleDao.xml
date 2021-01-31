@@ -37,11 +37,10 @@
     <select id="findCountRoleByUserId" parameterType="int" resultType="int">
         select count(*) from t_user_role where user_id =#{id}
     </select>
-    <!--根据检查用户id删除用户-->
+    <!--根据用户id删除用户-->
     <delete id="deleteById" parameterType="int">
         delete from t_user where id =#{id}
     </delete>
-
 
 
     <!-- 根据用户id查询用户-->
@@ -82,7 +81,6 @@
         </set>
         where id = #{id}
     </update>
-
 
 
     <!--查询是否存在-->
