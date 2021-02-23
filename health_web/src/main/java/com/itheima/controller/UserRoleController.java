@@ -34,6 +34,7 @@ public class UserRoleController {
     //分页查询用户
     @RequestMapping(value = "/findPage", method = RequestMethod.POST)
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
+        System.out.println("第一次提交！");
         PageResult pageResult = userRoleService.findPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize(), queryPageBean.getQueryString());
         return pageResult;
     }
