@@ -34,4 +34,6 @@
         <!--指定接口所在的包-->
         <property name="basePackage" value="com.itheima.dao" />
     </bean>
+
+    <!--测试-->
 </beans>
