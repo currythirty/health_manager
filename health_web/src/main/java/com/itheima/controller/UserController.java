@@ -23,6 +23,7 @@ public class UserController {
      */
     @RequestMapping(value = "/getUserName", method = RequestMethod.GET)
     public Result getUserName() {
+        //第一次提交
         try {
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return new Result(true, MessageConstant.GET_USERNAME_SUCCESS,user.getUsername());
