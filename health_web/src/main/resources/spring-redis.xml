@@ -37,4 +37,6 @@
         <constructor-arg name="port" value="6379" type="int" />
         <constructor-arg name="timeout" value="30000" type="int" />
     </bean>
+
+    <!--测试-->
 </beans>
